@@ -1,23 +1,24 @@
 {
-  "name": "compliance-brag",
-  "version": "0.0.0",
-  "description": "A service with a dynamic image useful for bragging about your project compliance in your Github README.md",
+  "name": "standards-badges",
+  "version": "0.0.1",
+  "description": "A way of bragging about your compliance with company standards",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/christriddle/compliance-brag.git"
+    "url": "git://github.com/christriddle/standards-badges.git"
   },
   "author": "Chris Riddle <criddle@opentable.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/christriddle/compliance-brag/issues"
+    "url": "https://github.com/christriddle/standards-badges/issues"
   },
-  "homepage": "https://github.com/christriddle/compliance-brag",
+  "homepage": "https://github.com/christriddle/standards-badges",
   "dependencies": {
     "hapi": "^6.9.0",
-    "gm": "^1.16.0"
+    "gm": "^1.16.0",
+    "underscore": "^1.7.0"
   }
 }

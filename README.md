@@ -1,4 +1,3 @@
-compliance-brag
-===============
+# standards-badges
 
-A service with a dynamic image useful for bragging about your project compliance in your Github README.md
+A way of bragging about your compliance with company standards
