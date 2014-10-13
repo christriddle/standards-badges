@@ -19,6 +19,11 @@
   "dependencies": {
     "hapi": "^6.9.0",
     "gm": "^1.16.0",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "jade": "^1.7.0",
+    "good": "^3.0.1"
+  },
+  "devDependencies": {
+    "forever-monitor": "^1.3.0"
   }
 }

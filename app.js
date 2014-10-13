@@ -1,12 +1,58 @@
 var Hapi = require('hapi'),
+    Good = require('Good'),
     gm = require('gm').subClass({ imageMagick: true }),
-    _ = require('underscore');
+    _ = require('underscore'),
+    util = require('util'),
+    config = require('./badge-config');
 
-var server = new Hapi.Server('localhost', 8000);
+var server = new Hapi.Server('localhost', 8000, {
 
-var badges = {
-    statusEndpoint: { pass: 'S', versionFail: 's', fail: 'x', version: 1 },
-    loggingSchema: { pass: 'L', versionFail: 'l', fail: 'x', version: 1 }
+    debug: { 'request': ['error', 'uncaught'] },
+    views: {
+        engines: {
+            jade: require('jade')
+        },
+        path: './templates'
+    }
+});
+
+var getBadgeUrls = function(query, imageFormat){
+    return _
+        .chain(config.badges)
+        .map(function(badge, name){
+            var status, colour;
+
+            if (_.has(query, name)){
+                var queryVersion = query[name];
+
+                if (queryVersion === '0') {
+                    return null;
+                }
+
+                if (queryVersion >= config.version){
+                    status = badge.passStatus;
+                    colour = config.passColour;
+                } else {
+                    status = badge.versionFailStatus;
+                    colour = config.versionFailColour;
+                }
+
+            } else {
+                status = badge.failStatus;
+                colour = config.failColour;
+            }
+
+            return {
+                url: util.format(config.badgeUrlTemplate, badge.text, status, colour, imageFormat),
+                description: badge.description,
+                alt: util.format(config.badgeAltTemplate, badge.text, status, colour),
+                localFile: util.format(config.badgeFilenameTemplate, badge.text, status, colour)
+            };
+        })
+        .filter(function(val){
+            return val !== null;
+        })
+        .value();
 };
 
 server.route({
@@ -14,29 +60,34 @@ server.route({
     path: '/',
     handler: function (request, reply) {
 
-        var result = _
-            .chain(badges)
-            .map(function(name, config){
-                if (_.has(request.query, name)){
-                    var queryVersion = request.query[name];
-                    //is int?
-                    return queryVersion >= config.version ? config.pass : config.versionFail
-                } else {
-                    return config.fail;
-                }
-            })
-            .reduce(function(memo, letter){ return memo + letter; }, '')
-            .value();
+        var badges = getBadgeUrls(request.query, 'svg');
+        reply.view('badges', {
+            badges: badges
+        });
+    }
+});
 
+server.route({
+    method: 'GET',
+    path: '/image',
+    handler: function (request, reply) {
 
-        var image = gm(200, 400, "#ddff99f3")
-            .fontSize(40)
-            .stroke("#efe", 2)
-            .fill("#888")
-            .font("Arial")
-            .drawText(0, 100, result);
+        var badges = getBadgeUrls(request.query, 'png');
 
-        image.toBuffer('PNG',function (err, buffer) {
+        var image;
+        _.each(badges, function(badge) {
+            if (!image){
+                image = gm('images/' + badge.localFile);
+            } else {
+                image.append('images/' + badge.localFile);
+            }
+        });
+
+        if (!image) {
+            return; //error?
+        }
+
+        image.toBuffer('PNG', function (err, buffer) {
             if (err) {
                 console.log(err);
                 return;
@@ -47,4 +98,14 @@ server.route({
     }
 });
 
-server.start();
+
+server.pack.register(Good, function (err) {
+
+    if (err) {
+        throw err; // something bad happened loading the plugin
+    }
+
+    server.start(function () {
+        console.log('Server running at:', server.info.uri);
+    });
+});
