@@ -1,5 +1,5 @@
 var Hapi = require('hapi'),
-    Good = require('Good'),
+    Good = require('good'),
     gm = require('gm').subClass({ imageMagick: true }),
     _ = require('underscore'),
     util = require('util'),
