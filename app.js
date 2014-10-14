@@ -79,9 +79,7 @@ server.route({
             if (!image){
                 image = gm('images/' + badge.localFile);
             } else {
-                image
-                    .background('white').gravity('East').splice(20)
-                    .append('images/' + badge.localFile, true);
+                image.append('images/' + badge.localFile, false);
             }
         });
 
