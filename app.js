@@ -29,7 +29,7 @@ var getBadgeUrls = function(query, imageFormat){
                     return null;
                 }
 
-                if (queryVersion >= config.version){
+                if (queryVersion >= badge.version){
                     status = badge.passStatus;
                     colour = config.passColour;
                 } else {
@@ -79,7 +79,9 @@ server.route({
             if (!image){
                 image = gm('images/' + badge.localFile);
             } else {
-                image.append('images/' + badge.localFile);
+                image
+                    .background('white').gravity('East').splice(20)
+                    .append('images/' + badge.localFile, true);
             }
         });
 
