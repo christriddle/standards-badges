@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "A way of bragging about your compliance with company standards",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/christriddle/standards-badges.git"
@@ -14,6 +11,12 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/christriddle/standards-badges/issues"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "0.10.x"
   },
   "homepage": "https://github.com/christriddle/standards-badges",
   "dependencies": {
