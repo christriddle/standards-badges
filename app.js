@@ -5,7 +5,7 @@ var Hapi = require('hapi'),
     util = require('util'),
     config = require('./badge-config');
 
-var server = new Hapi.Server('localhost', process.env.PORT || 8000, {
+var server = new Hapi.Server('0.0.0.0', ~~process.env.PORT || 8000, {
 
     debug: { 'request': ['error', 'uncaught'] },
     views: {
