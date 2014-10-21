@@ -18,4 +18,5 @@ _.each(config.badges, function(badge){
     downloadImage(badge.text, badge.passStatus, config.passColour);
     downloadImage(badge.text, badge.versionFailStatus, config.versionFailColour);
     downloadImage(badge.text, badge.failStatus, config.failColour);
+    downloadImage(badge.text, config.ignoreStatus, config.ignoreColour);
 });

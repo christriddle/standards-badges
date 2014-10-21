@@ -2,11 +2,9 @@ var Hapi = require('hapi'),
     Good = require('good'),
     gm = require('gm').subClass({ imageMagick: true }),
     _ = require('underscore'),
-    util = require('util'),
-    config = require('./badge-config');
+    badgeUtils = require('./badgeUtils');
 
 var server = new Hapi.Server('0.0.0.0', ~~process.env.PORT || 8000, {
-
     debug: { 'request': ['error', 'uncaught'] },
     views: {
         engines: {
@@ -16,53 +14,19 @@ var server = new Hapi.Server('0.0.0.0', ~~process.env.PORT || 8000, {
     }
 });
 
-var getBadgeUrls = function(query, imageFormat){
-    return _
-        .chain(config.badges)
-        .map(function(badge, name){
-            var status, colour;
-
-            if (_.has(query, name)){
-                var queryVersion = query[name];
-
-                if (queryVersion === '0') {
-                    return null;
-                }
-
-                if (queryVersion >= badge.version){
-                    status = badge.passStatus;
-                    colour = config.passColour;
-                } else {
-                    status = badge.versionFailStatus;
-                    colour = config.versionFailColour;
-                }
-
-            } else {
-                status = badge.failStatus;
-                colour = config.failColour;
-            }
-
-            return {
-                url: util.format(config.badgeUrlTemplate, badge.text, status, colour, imageFormat),
-                description: badge.description,
-                alt: util.format(config.badgeAltTemplate, badge.text, status, colour),
-                localFile: util.format(config.badgeFilenameTemplate, badge.text, status, colour)
-            };
-        })
-        .filter(function(val){
-            return val !== null;
-        })
-        .value();
-};
 
 server.route({
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
 
-        var badges = getBadgeUrls(request.query, 'svg');
+        var badges = badgeUtils.getBadges(request.query, 'svg', true);
         reply.view('badges', {
-            badges: badges
+            appName: request.query.appName || "AppName",
+            badges: badges.badgesFlattened,
+            passed: badges.stats.successCount,
+            total: badges.stats.successCount + badges.stats.versionFailedCount + badges.stats.failedCount,
+            ignored: badges.stats.ignoredCount
         });
     }
 });
@@ -72,10 +36,11 @@ server.route({
     path: '/image',
     handler: function (request, reply) {
 
-        var badges = getBadgeUrls(request.query, 'png');
+        var badges = badgeUtils.getBadges(request.query, 'png', false);
+        var flattenedBadges = badges.badgesFlattened;
 
         var image;
-        _.each(badges, function(badge) {
+        _.each(flattenedBadges, function(badge) {
             if (!image){
                 image = gm('images/' + badge.localFile);
             } else {
@@ -98,6 +63,15 @@ server.route({
     }
 });
 
+server.route({
+    method: 'GET',
+    path: '/{param*}',
+    handler: {
+        directory: {
+            path: 'public'
+        }
+    }
+});
 
 server.pack.register(Good, function (err) {
 

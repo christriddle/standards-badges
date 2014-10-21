@@ -6,15 +6,15 @@ module.exports = {
             versionFailStatus: 'Present',
             failStatus: 'Not_present',
             version: 1,
-            description: 'This project has a service status endpoint'
+            description: 'Each application instance should have a http endpoint to provide information about the health of that instance.'
         },
         logSchema: {
             text: 'OT_log_schema',
             passStatus: 'Pass',
-            versionFailStatus: 'Old',
+            versionFailStatus: 'Outdated',
             failStatus: 'No',
             version: 2,
-            description: 'This service logs with the correct OT log schema'
+            description: 'Each application should log to our logging infrastructure with the correct logging schema.'
         },
         githubReadme: {
             text: 'Github_readme',
@@ -22,13 +22,15 @@ module.exports = {
             versionFailStatus: '',
             failStatus: 'Not_present',
             version: 1,
-            description: 'This project has a Github readme'
+            description: 'Each project should have a Github readme with information about the project, or a link to the information in the wiki.'
         }
     },
+    ignoreStatus: 'Ignored',
     badgeUrlTemplate: 'http://img.shields.io/badge/%s-%s-%s.%s',
     badgeAltTemplate: '%s: %s [%s]',
     badgeFilenameTemplate : '%s-%s-%s.png',
     passColour: 'green',
     versionFailColour: 'orange',
-    failColour: 'red'
+    failColour: 'red',
+    ignoreColour: 'gray'
 }

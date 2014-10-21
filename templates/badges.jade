@@ -2,7 +2,32 @@ doctype html
 html(lang="en")
   head
     title OpenTable Project Standards Badges
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css")
+    link(rel="stylesheet" href="css/badges.css")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
   body
-    each badge in badges
-      p
-        image(src=badge.url,alt=badge.alt,title=badge.description)
+    .container
+      h2 #{appName}
+      .panel.panel-default
+        .panel-heading OpenTable Standards
+        .panel-body
+          p #{appName} has
+            span(class=passed === total ? "text-success" : "text-danger")  #{passed} out of #{total}
+            |  standards implemented
+            if ignored > 0
+              |  (#{ignored} ignored)
+            | .
+          table.table
+            thead
+              tr
+                th
+                th Name
+                th Description
+                th Current Version
+            each badge in badges
+              tr
+                td
+                  image(src=badge.url,alt=badge.alt)
+                td= badge.name
+                td= badge.description
+                td= badge.currentVersion
