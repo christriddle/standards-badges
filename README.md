@@ -100,3 +100,16 @@ node generateBadges.js
 ```
 
 The images have the form: badge_name-badge_status-colour.png
+
+## Deployment
+
+The web application is hosted on heroku. Currently using Chris Riddles personal account - although this could change in the future.
+
+To get permissions to deploy, please contact Chris Riddle at criddle@opentable.com.
+
+### Deployment steps
+
+Make sure you have the heroku remote set: `git remote add heroku git@heroku.com:standards-badges.git`
+
+Then all you need to do, is push to the heroku git: `git push heroku'.
+
