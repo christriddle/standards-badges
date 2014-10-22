@@ -59,6 +59,21 @@ var getBadges = function(query, imageFormat, includeIgnored){
     };
 };
 
+var getAllBadges = function(){
+    return _
+        .chain(config.badges)
+        .map(function(badge, name){
+            return _.extend(badge, {
+                name: name,
+                successUrl: util.format(config.badgeUrlTemplate, badge.text, badge.passStatus, config.passColour, 'svg'),
+                versionFailUrl: util.format(config.badgeUrlTemplate, badge.text, badge.versionFailStatus, config.versionFailColour, 'svg'),
+                failUrl: util.format(config.badgeUrlTemplate, badge.text, badge.failStatus, config.failColour, 'svg')
+            });
+        })
+        .sortBy('name')
+        .value();
+};
+
 var getSuccessBadge = function(badge, imageFormat) {
     return getSingleBadge(badge, badge.passStatus, config.passColour, imageFormat);
 };
@@ -87,5 +102,7 @@ var getSingleBadge = function(badge, status, colour, imageFormat) {
 };
 
 module.exports = {
-    getBadges: getBadges
+    getBadges: getBadges,
+    getPartitionedBadgesInformation: getPartitionedBadgesInformation,
+    getAllBadges: getAllBadges
 };

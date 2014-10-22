@@ -3,7 +3,7 @@ module.exports = {
         serviceStatusEndpoint: {
             text: 'Service_Status',
             passStatus: 'Present',
-            versionFailStatus: 'Present',
+            versionFailStatus: 'Outdated',
             failStatus: 'Not_present',
             version: 1,
             description: 'Each application instance should have a http endpoint to provide information about the health of that instance.'
@@ -19,7 +19,7 @@ module.exports = {
         githubReadme: {
             text: 'Github_readme',
             passStatus: 'Present',
-            versionFailStatus: '',
+            versionFailStatus: 'Outdated',
             failStatus: 'Not_present',
             version: 1,
             description: 'Each project should have a Github readme with information about the project, or a link to the information in the wiki.'
@@ -32,5 +32,6 @@ module.exports = {
     passColour: 'green',
     versionFailColour: 'orange',
     failColour: 'red',
-    ignoreColour: 'gray'
+    ignoreColour: 'gray',
+    imageHorizontalWrapCount: 4
 }

@@ -1,0 +1,48 @@
+doctype html
+html(lang="en")
+  head
+    title OpenTable Project Standards Badges
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css")
+    link(rel="stylesheet" href="css/badges.css")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    .container
+      h2 Help
+      p
+        | Base Image URL:&nbsp;
+        a(href="http://standards-badges.herokuapp.com/image") http://standards-badges.herokuapp.com/image
+      p
+        | Base Infomation URL:&nbsp;
+        a(href="http://standards-badges.herokuapp.com/?appName=ApplicationName") http://standards-badges.herokuapp.com/?appName=ApplicationName
+      .panel.panel-default
+        .panel-heading Available Badges
+        .panel-body
+          table.table
+            thead
+              tr
+                th
+                th Name
+                th Description
+                th Current Version
+                th Usage
+            each badge in badges
+              tr
+                td
+                  image(src=badge.successUrl,alt="Success")
+                  br
+                  image(src=badge.versionFailUrl,alt="Version Fail")
+                  br
+                  image(src=badge.failUrl,alt="Fail")
+                td= badge.name
+                td= badge.description
+                td= badge.version
+                td #{badge.name}=#{badge.version}
+      .panel.panel-default
+        .panel-heading Examples
+        .panel-body
+          each example in examples
+            h4= example.name
+            div
+              a(href=example.url) #{example.url}
+            div
+              image(src=example.url)

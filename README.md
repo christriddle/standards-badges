@@ -18,6 +18,10 @@ A good place to start is to add this to your README.md markdown:
 
 Note, in this example, the 'serviceStatusEndpoint' badge will show as being present (and green). All other badges will be in a failed state, but still displayed.
 
+### Help Page
+
+More information on what badges are available can be located here: [Help](http://standards-badges.herokuapp.com/help)
+
 ### Removing a badge
 
 To opt-out of a standard (and remove the badge from the image), set the name of the badge in the query string to 0. E.g. logSchema=0.
