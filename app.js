@@ -2,7 +2,9 @@ var Hapi = require('hapi'),
     Good = require('good'),
     gm = require('gm').subClass({ imageMagick: true }),
     _ = require('underscore'),
-    badgeUtils = require('./badgeUtils');
+    badgeUtils = require('./badgeUtils'),
+    imageUtils = require('./imageUtils'),
+    config = require('./badge-config');
 
 var server = new Hapi.Server('0.0.0.0', ~~process.env.PORT || 8000, {
     debug: { 'request': ['error', 'uncaught'] },
@@ -27,6 +29,28 @@ server.route({
             passed: badges.stats.successCount,
             total: badges.stats.successCount + badges.stats.versionFailedCount + badges.stats.failedCount,
             ignored: badges.stats.ignoredCount
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/help',
+    handler: function (request, reply) {
+
+        var badges = badgeUtils.getAllBadges();
+
+        var allSuccessExampleUrl = _.reduce(badges, function(memo, badge){
+            return (memo ? memo + '&' : '') + badge.name + '=' + badge.version;
+        }, '');
+        allSuccessExampleUrl = 'http://standards-badges.herokuapp.com/image?' + allSuccessExampleUrl;
+
+        reply.view('help', {
+            badges: badges,
+            examples: [{
+                name: 'All Passing',
+                url: allSuccessExampleUrl
+            }]
         });
     }
 });
@@ -59,6 +83,22 @@ server.route({
             }
 
             reply(buffer).type('image/png');
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/v2/image',
+    handler: function (request, reply) {
+        var badges = badgeUtils.getPartitionedBadgesInformation(request.query, 'png', false);
+        imageUtils.buildBadgesImage(badges, config.imageHorizontalWrapCount, function(err, imageBuffer){
+            if (err) {
+                console.log(err);
+                return;
+            }
+
+            reply(imageBuffer).type('image/png');
         });
     }
 });

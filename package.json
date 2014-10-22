@@ -1,16 +1,16 @@
 {
   "name": "standards-badges",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A way of bragging about your compliance with company standards",
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/christriddle/standards-badges.git"
+    "url": "git://github.com/opentable/standards-badges.git"
   },
   "author": "Chris Riddle <criddle@opentable.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/christriddle/standards-badges/issues"
+    "url": "https://github.com/opentable/standards-badges/issues"
   },
   "scripts": {
     "start": "node app.js"
@@ -18,7 +18,7 @@
   "engines": {
     "node": "0.10.x"
   },
-  "homepage": "https://github.com/christriddle/standards-badges",
+  "homepage": "https://github.com/opentable/standards-badges",
   "dependencies": {
     "hapi": "^6.9.0",
     "gm": "^1.16.0",
