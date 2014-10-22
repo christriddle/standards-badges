@@ -42,7 +42,7 @@ Note, you must supply the exact same query string parameters to the link as to t
 
 ### Readme Example
 
-![Application View](screenshots/ApplicationView.png)
+![Badge Status Example](docs/images/example1.png)
 
 ## Installation
 
