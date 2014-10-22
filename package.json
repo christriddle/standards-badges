@@ -1,6 +1,6 @@
 {
   "name": "standards-badges",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A way of bragging about your compliance with company standards",
   "main": "app.js",
   "repository": {
